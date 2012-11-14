@@ -1,0 +1,712 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.5: http://docutils.sourceforge.net/" />
+<meta name="version" content="S5 1.1" />
+<title>(D)VCS: pourquoi, comment?</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 5196 2007-06-03 20:25:28Z wiemann $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left {
+  clear: left }
+
+img.align-right {
+  clear: right }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font-family: serif ;
+  font-size: 100% }
+
+pre.literal-block, pre.doctest-block {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+<!-- configuration parameters -->
+<meta name="defaultView" content="slideshow" />
+<meta name="controlVis" content="hidden" />
+<!-- style sheet links -->
+<script src="ui/default/slides.js" type="text/javascript"></script>
+<link rel="stylesheet" href="ui/default/slides.css"
+      type="text/css" media="projection" id="slideProj" />
+<link rel="stylesheet" href="ui/default/outline.css"
+      type="text/css" media="screen" id="outlineStyle" />
+<link rel="stylesheet" href="ui/default/print.css"
+      type="text/css" media="print" id="slidePrint" />
+<link rel="stylesheet" href="ui/default/opera.css"
+      type="text/css" media="projection" id="operaFix" />
+
+<style type="text/css">
+#currentSlide {display: none;}
+</style>
+</head>
+<body>
+<div class="layout">
+<div id="controls"></div>
+<div id="currentSlide"></div>
+<div id="header">
+
+</div>
+<div id="footer">
+<h2>Mathieu Agopian, PyCon.fr, 30/05/2009</h2>
+</div>
+</div>
+<div class="presentation">
+<div class="slide" id="slide0">
+
+
+<!-- Definitions of interpreted text roles (classes) for S5/HTML data. -->
+<!-- This data file has been placed in the public domain. -->
+<!-- Colours
+======= -->
+<!-- Text Sizes
+========== -->
+<!-- Display in Slides (Presentation Mode) Only
+========================================== -->
+<!-- Display in Outline Mode Only
+============================ -->
+<!-- Display in Print Only
+===================== -->
+<!-- Display in Handout Mode Only
+============================ -->
+<!-- Incremental Display
+=================== -->
+<p class="huge center">(D)VCS</p>
+<p class="big center">Pourquoi utiliser un outil?</p>
+<p class="big center">Quel outil utiliser?</p>
+<p class="big center">Comment l'utiliser?</p>
+
+</div>
+<div class="slide" id="quelques-questions">
+<h1>Quelques questions</h1>
+<div class="section" id="qui-sait-ce-qu-est-un-d-vcs">
+<h2>Qui sait ce qu'est un (D)VCS?</h2>
+</div>
+<div class="section" id="qui-en-a-d-j-utilis">
+<h2>Qui en a déjà utilisé?</h2>
+</div>
+<div class="section" id="qui-en-utilise-au-quotidien">
+<h2>Qui en utilise au quotidien?</h2>
+</div>
+<div class="section" id="quel-d-vcs">
+<h2>Quel (D)VCS?</h2>
+<p>CVS, SVN, Git, Mercurial (HG), Bazaar (BZR), Darcs, Autres...</p>
+</div>
+<div class="section" id="y-a-t-il-un-brian-dans-la-salle">
+<h2>Y a-t-il un &quot;Brian&quot; dans la salle?</h2>
+</div>
+</div>
+<div class="slide" id="pourquoi">
+<h1>POURQUOI</h1>
+<p><strong>Brian</strong>: Ouais mais bon, ok, ouais d'accord, mais bon, pourquoi?</p>
+</div>
+<div class="slide" id="le-boss-ind-cis">
+<h1>#1: Le boss indécis</h1>
+<p><strong>JR</strong> (le boss): Brian, il faut que quand le client se logue, il voie trois popup de pub!</p>
+<p><strong>Brian</strong>: Ca va me prendre une semaine, ça impacte pas mal de fichiers</p>
+</div>
+<div class="slide" id="id1">
+<h1>#1: Le boss indécis</h1>
+<p><em>Une semaine plus tard, le lendemain de la démonstration de la &quot;feature&quot; au boss</em></p>
+<p><strong>JR</strong>: Brian, ouais en fait, ma femme m'a dit que c'était trop pénible, enlève les popups!</p>
+</div>
+<div class="slide" id="id2">
+<h1>#1: Le boss indécis</h1>
+<p><strong>Brian</strong>: pas de problème, ça va me prendre deux jours pour retrouver et annuler toutes les modifs, et tester pour être sûr de n'avoir rien cassé</p>
+<p><strong>JR</strong>: Deux jours pour annuler? Tu n'avais pas fait de sauvegarde? attends je te <em>montre un truc</em>:</p>
+</div>
+<div class="slide" id="je-te-montre-un-truc">
+<h1>Je te montre un truc</h1>
+<p class="center"><img alt="anpe" src="images/logo_anpe.jpg" style="width: 400.0px; height: 450.0px;" /></p>
+</div>
+<div class="slide" id="la-fausse-bonne-id-e-le-cpold">
+<h1>La fausse bonne idée: le CPOLD</h1>
+<p>Pour reprendre le <a class="reference external" href="http://roland.entierement.nu/blog/2008/01/22/cpold-la-poudre-verte-du-suivi-de-versions.html">blog de Roland</a>, le CPOLD à d’innombrables qualités:</p>
+<ul class="tiny simple">
+<li>pas de format de fichier complexe et susceptible de corruption</li>
+<li>pas de conflits</li>
+<li>aucun besoin d’un serveur dédié (on peut tout mettre ensemble, prod et dev confondues)</li>
+<li>aucune limitation sur la gestion des branches</li>
+<li>une rapidité insurpassable</li>
+<li>une simplicité de mise en oeuvre et d’apprentissage enfantine</li>
+<li>pas de modèle de développement imposé (centralisé, distribué, en quinconce, en hélice, toutes les variantes sont possibles)</li>
+<li>des sauvegardes facilitées</li>
+<li>etc…</li>
+</ul>
+</div>
+<div class="slide" id="id3">
+<h1>La fausse bonne idée: le CPOLD</h1>
+<p>Voici en quoi consiste la mise en place du CPOLD:</p>
+<pre class="literal-block">
+$ cp fichier.py fichier.py.old
+</pre>
+</div>
+<div class="slide" id="id4">
+<h1>La fausse bonne idée: le CPOLD</h1>
+<p>Et voici un exemple de mise en oeuvre du CPOLD:</p>
+<pre class="literal-block">
+foo_dev
+    foo.py
+    foo.py.old
+    foo.py.old.2009_03_29
+    foo.py.marche_pas
+    foo.py.todelete
+    foo.py.OLD.2006_05_12
+    foo.py.bak
+    foo.py.fonctionalite_bar
+    foo.py.bug
+    foo.py.save.20081210
+    foo.py.check
+    foo.py.test
+
+foo_prod
+    foo.py
+
+foo_savedev.tgz
+foo_save20090329_v2_0.tgz
+foo_save20080412_v1_2.tgz
+foo_save20060509_v1_0.tgz
+</pre>
+</div>
+<div class="slide" id="le-crash-disque">
+<h1>#2: Le crash disque</h1>
+<p><strong>Brian</strong>: Patron? J'ai un petit soucis, il semblerait que le disque dur de mon ordinateur vienne de lâcher...</p>
+<p><strong>JR</strong>: Et? en quoi ça me concerne? Prends en un nouveau dans la réserve, et retourne bosser.</p>
+</div>
+<div class="slide" id="id5">
+<h1>#2: Le crash disque</h1>
+<p><strong>Brian</strong>: Ah, euh, ok, je vais récuperer les sources du projet sur le serveur de production, par contre il va me falloir quelques jours pour rattraper le boulot perdu depuis la dernière release...</p>
+<p><strong>JR</strong>: Tu n'avais pas de sauvegardes? Attends, je te <em>montre un truc</em>:</p>
+</div>
+<div class="slide" id="id6">
+<h1>Je te montre un truc</h1>
+<p class="center"><img alt="anpe" src="images/logo_anpe.jpg" style="width: 400.0px; height: 450.0px;" /></p>
+</div>
+<div class="slide" id="solution">
+<h1>Solution?</h1>
+<div class="section" id="la-sauvegarde-sur-un-serveur-distant">
+<h2>La sauvegarde sur un serveur distant</h2>
+<p>Brian n'est pas bête, il va uploader régulièrement (toutes les heures? deux fois par jour?) ses modifications sur un serveur distant (CF l'exemple du CPOLD).</p>
+</div>
+</div>
+<div class="slide" id="id7">
+<h1>Solution?</h1>
+<div class="section" id="probl-mes">
+<h2>Problèmes:</h2>
+<ol class="arabic simple">
+<li>Duplication inutile du code</li>
+<li>Durée de l'upload pour de gros projets</li>
+</ol>
+</div>
+</div>
+<div class="slide" id="le-code-spaghetti">
+<h1>#3: Le code spaghetti</h1>
+<p><strong>JR</strong>: Brian, ma femme vient de trouver un gros bug, je veux savoir depuis quand il existe, et surtout, à cause de qui! Dépèche-toi de trouver si tu veux pas que je te <em>montre un truc</em></p>
+<p>Brian à besoin de savoir qui fait quoi dans le code, vu qu'il travaille avec le neuveu du boss dont la spécialité est le &quot;code spaghetti&quot;.
+Du coup, Brian a mis en place une méthode éprouvée:</p>
+</div>
+<div class="slide" id="id8">
+<h1>Solution?</h1>
+<div class="section" id="les-commentaires-dans-le-code">
+<h2>Les commentaires dans le code</h2>
+<pre class="literal-block">
+...
+def bar(thing): # Added the 10th of june, 2006 -- Steven
+    &quot;&quot;&quot;This function is very usefull!&quot;&quot;&quot;
+    # Brian: refactored 20080410 for release 1.2
+    #if thing == &quot;bar&quot;: ### Steven: 11/06/07 fixed typo
+    # (was 'thing = &quot;bar&quot;')
+    #    return True;
+    return (thing == &quot;bar&quot;)
+...
+</pre>
+</div>
+</div>
+<div class="slide" id="id9">
+<h1>Solution?</h1>
+<div class="section" id="id10">
+<h2>Problèmes:</h2>
+<ol class="arabic simple">
+<li>Le code devient très vite illisible</li>
+<li>Très ardu de suivre les modifications successives en reconstituant l'historique</li>
+<li>7 lignes pour un code qui ne devrait en prendre que 3</li>
+</ol>
+</div>
+</div>
+<div class="slide" id="comment">
+<h1>COMMENT</h1>
+<p><strong>Brian</strong> (<em>immense cri de désespoir</em>): Mais comment m'en sortir sans que JR me <em>montre un truc</em> ?</p>
+<div align="center" class="align-center"><img alt="images/pourquoi.jpg" class="align-center" src="images/pourquoi.jpg" /></div>
+</div>
+<div class="slide" id="les-vcs">
+<h1>Les VCS</h1>
+<div class="section" id="garder-trace-de-l-volution-d-un-projet">
+<h2>Garder trace de l'évolution d'un projet</h2>
+<ol class="arabic simple">
+<li>QUI: l'auteur du changement</li>
+<li>QUAND: la date de ce changement</li>
+<li>QUOI: chaque ligne changée, de chaque fichier impacté</li>
+<li>POURQUOI: le message de &quot;commit&quot; explicatif renseigné par l'auteur</li>
+<li>VERSION: un &quot;tag&quot; optionnel (changeset) pour indiquer une release</li>
+</ol>
+</div>
+</div>
+<div class="slide" id="id11">
+<h1>Les VCS</h1>
+<div class="section" id="il-est-possible-entre-autres-de">
+<h2>Il est possible, entre autres, de:</h2>
+<ul class="simple">
+<li>lister les fichiers modifiés par un auteur</li>
+<li>lister les changements apportés à un fichier</li>
+<li>lister les modifications apportées depuis une date donnée</li>
+<li>récuperer les fichiers du projet pour une version donnée</li>
+<li>brancher un projet (sandboxing) puis merger</li>
+</ul>
+</div>
+</div>
+<div class="slide" id="id12">
+<h1>Les VCS</h1>
+<div class="section" id="les-messages-de-commit">
+<h2>Les messages de commit</h2>
+<p>Il en va de la responsabilité de chaque développeur de fournir un message explicatif à chaque <em>commit</em>.</p>
+<p>Celà aide grandement, entre autres, pour retrouver la source d'un bug, comprendre le contexte d'une modification...</p>
+</div>
+</div>
+<div class="slide" id="id13">
+<h1>Les VCS</h1>
+<div class="section" id="id14">
+<h2>Les messages de commit</h2>
+<p><strong>MAUVAIS</strong>:</p>
+<pre class="literal-block">
+Modif du fichier foo.py
+</pre>
+<p><strong>BON</strong>:</p>
+<pre class="literal-block">
+Feature 'popups': dynamically load popups' urls from the database
+</pre>
+<p>Chaque dévelopeur va <em>commit</em> ses changements sur le serveur.</p>
+</div>
+</div>
+<div class="slide" id="id15">
+<h1>Les VCS</h1>
+<div class="section" id="garder-trace-des-changements">
+<h2>Garder trace des changements</h2>
+<p>Les VCS ne gardent trace que des changements. Donc si un dévelopeur modifie une ligne dans un fichier, c'est ce changement qui sera envoyé sur le serveur, et non la totalité du projet:</p>
+<ul class="simple">
+<li>économie de bande passante</li>
+<li>économie de temps</li>
+<li>économie d'espace de stockage</li>
+</ul>
+</div>
+</div>
+<div class="slide" id="les-dvcs">
+<h1>Les DVCS</h1>
+<p>Evolution assez récente des VCS, qui sont basés sur une architecture décentralisée.</p>
+<p>Chaque développeur possède sa propre copie des fichiers du projet, ce qui en fait d'autant plus de sauvegardes.</p>
+</div>
+<div class="slide" id="id16">
+<h1>Les DVCS</h1>
+<div class="section" id="avantages-des-dvcs">
+<h2>Avantages des DVCS:</h2>
+<ul class="simple">
+<li>commit locaux</li>
+<li>plus rapide</li>
+<li>un serveur central optionnel, ET des sauvegardes sur chaque pc</li>
+<li>facilité pour l'open-source</li>
+<li><em>merge</em> facile</li>
+</ul>
+</div>
+</div>
+<div class="slide" id="id17">
+<h1>Les DVCS</h1>
+<div class="section" id="le-d-veloppement-en-quipe">
+<h2>Le développement en équipe</h2>
+<p>Les DVCS ont pour but principal, en plus des buts propres à tout VCS, de faciliter le <em>fork</em>.</p>
+<p>Tout est basé sur cette notion de <em>fork</em>, chaque changement étant un <em>fork</em> potentiel: tout est donc fait pour faciliter le <em>merge</em>.</p>
+</div>
+</div>
+<div class="slide" id="mercurial">
+<h1>MERCURIAL</h1>
+<ul class="simple">
+<li>Développé en python</li>
+<li>Utilisé (bientôt?) pour Python lui-même</li>
+<li>Le seul DVCS adopté par Google Code</li>
+<li>Facile à apprendre et utiliser</li>
+<li>Léger</li>
+<li>Facile à customiser</li>
+<li>Facile à adopter (convert: cvs, svn, git, darcs)</li>
+</ul>
+</div>
+<div class="slide" id="id18">
+<h1>MERCURIAL</h1>
+<div class="section" id="initialiser-un-nouveau-projet">
+<h2>Initialiser un nouveau projet</h2>
+<pre class="literal-block">
+$ hg init
+</pre>
+</div>
+</div>
+<div class="slide" id="id19">
+<h1>MERCURIAL</h1>
+<div class="section" id="surveiller-les-changements">
+<h2>Surveiller les changements</h2>
+<pre class="literal-block">
+$ hg status
+$ hg st
+</pre>
+</div>
+</div>
+<div class="slide" id="id20">
+<h1>MERCURIAL</h1>
+<div class="section" id="ajouter-des-fichiers-au-repository">
+<h2>Ajouter des fichiers au repository</h2>
+<pre class="literal-block">
+$ hg add monfichier.py monautrefichier.py
+</pre>
+</div>
+</div>
+<div class="slide" id="id21">
+<h1>MERCURIAL</h1>
+<div class="section" id="commit-les-changements">
+<h2><em>Commit</em> les changements</h2>
+<p>Très régulièrement, en soignant les messages</p>
+<pre class="literal-block">
+$ hg commit monfichier.py monautrefichier.py
+$ hg commit
+</pre>
+<p>Ou</p>
+<pre class="literal-block">
+$ hg commit -A
+$ hg commit -m &quot;Mon super message de commit&quot;
+$ hg ci
+</pre>
+</div>
+</div>
+<div class="slide" id="id22">
+<h1>MERCURIAL</h1>
+<div class="section" id="sauvegarder-uploader-sur-le-serveur-distant">
+<h2>Sauvegarder/uploader sur le serveur distant</h2>
+<pre class="literal-block">
+$ hg push
+</pre>
+</div>
+</div>
+<div class="slide" id="id23">
+<h1>MERCURIAL</h1>
+<div class="section" id="cloner-forker-un-projet">
+<h2>Cloner/forker un projet</h2>
+<p>Si on veut travailler sur un projet existant, pas besoin d'initialiser un nouveau projet</p>
+<pre class="literal-block">
+$ hg clone http://bitbucket.org/magopian/pyconfr
+</pre>
+</div>
+</div>
+<div class="slide" id="id24">
+<h1>MERCURIAL</h1>
+<p>Puis, pour récuperer les derniers changements</p>
+<pre class="literal-block">
+$ hg pull
+$ hg pull -u
+</pre>
+</div>
+<div class="slide" id="id25">
+<h1>MERCURIAL</h1>
+<p>Pour appliquer les changements sur le projet initial, plusieurs solutions:</p>
+<ul class="simple">
+<li>Fournir un patch (méthode traditionnelle)</li>
+<li>Faire un <em>push</em> vers le serveur</li>
+<li>Faire un <em>pull</em> à partir du serveur</li>
+<li>Faire une <em>pull request</em> au mainteneur du projet</li>
+</ul>
+</div>
+<div class="slide" id="bitbucket">
+<h1>Bitbucket</h1>
+<p>Ne vous embetez pas à installer/configurer/maintenir/payer un serveur distant!</p>
+</div>
+<div class="slide" id="liens-des-questions">
+<h1>Liens / Des questions?</h1>
+<ul>
+<li><dl class="first docutils">
+<dt>Mercurial book:</dt>
+<dd><p class="first last"><a class="reference external" href="http://hgbook.red-bean.com/">http://hgbook.red-bean.com/</a></p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>A Visual Guide To Version Control:</dt>
+<dd><p class="first last"><a class="reference external" href="http://betterexplained.com/articles/a-visual-guide-to-version-control/">http://betterexplained.com/articles/a-visual-guide-to-version-control/</a></p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Introduction To DVCS illustrated:</dt>
+<dd><p class="first last"><a class="reference external" href="http://betterexplained.com/articles/intro-to-distributed-version-control-illustrated/">http://betterexplained.com/articles/intro-to-distributed-version-control-illustrated/</a></p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+</div>
+</body>
+</html>

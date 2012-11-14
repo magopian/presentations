@@ -1,0 +1,60 @@
+Mathieu Agopian
+===============
+
+Touche-à-tout, insatiable curieux, fainéant notoire, Mathieu Agopian s'est adonné à plusieurs domaines aussi divers que variés, en passant de la robotique au web, de logiciel desktop monolithique aux applications pour Android. Il code régulièrement en PHP (bouh!), Java (eurk!), python (classe!), django (poneys!), HTML+CSS+JS (ouais comme le neveu de ma cousine quoi), et conserve néanmoins (presque toute) sa santé mentale.
+
+Il faut par ailleurs noter que Mathieu Agopian a un goût sûr et prononcé pour les beaux designs (<a href="http://twitter.com/djangocong/status/8029601139">la preuve en image</a>).
+
+Django pour les fainéants
+=========================
+
+La fainéantise est sans aucun doute un moteur puissant du progrès, et chaque dévelopeur devrait avoir pour slogan "travailler moins pour en faire plus"!
+
+Liste de buzzwords: Django, DRY, HTML5, CSS3. Nous verrons comment utiliser ces outils du fainéant au travers de l'exemple concret de la création d'une application web.
+
+
+idées:
+- django :
+    * combattre la page blanche avec django_base
+    * prendre des raccourcis
+    * factoriser son code avec les decorateurs
+    * réduire son code avec les generic views
+    * réutiliser son code avec les applications (registration, flat-pages...)
+- html5 : 
+    * markup sémantique
+    * forms (placeholder, type=email, required...) ===> clavier virtuel dynamique
+#   * local storage
+#   * offline
+- css3 : 
+    * selectors ([type=submit], first-child, last-child)
+    * text-shadow
+    * border-radius et box-shadow
+#    * gradient
+- astuces : jquery avec "upgrade bar"
+
+conclusion: le paradoxe du fainéant "en faire toujours plus pour pouvoir en faire moins!"
+comble: le comble du fainéant "faire une présentation pour que d'autres en fassent plus ... à sa place!"
+
+
+Bons points:
+    * pose une colle : tube de colle
+    * faillot : botte (à lécher)
+    * fainéant : oreiller
+    * astuce django : poney magique
+
+
+
+
+
+// à voir ?
+YANT: Yet Another Notes Taker
+=============================
+
+Fonctionnalités
+---------------
+
+* ajouter une note
+* supprimer une note
+* notes synchronisées
+* mode offline
+

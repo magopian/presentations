@@ -1,0 +1,416 @@
+.. footer:: Mathieu Agopian, DjangoCong, 24/04/2010
+.. include:: <s5defs.txt>
+
+.. class:: huge center
+
+    Django Pour Les Fainéants
+
+.. class:: big center
+
+    Slogan: Travailler moins pour en faire plus!
+
+Définitions
+===========
+
+Fainéant :  OUI
+---------------
+
+Fait néant : aime ne rien faire.
+
+Feignant : NON
+--------------
+
+Art de feindre : feindre ... pour échapper à une tâche.
+
+Fainéant : pourquoi ?
+=======================
+
+Un moteur fort des progrès, de l'avancement technologique, de la mise en place de méthodes et de l'élaboration d'outils.
+
+Plus de temps libre pour... mettre en oeuvre d'autres méthodes pour en faire moins...
+
+Pour pouvoir en faire plus dans le même temps !
+
+Fainéant : comment ?
+=======================
+
+#. Réduire son code (moins de code à maintenir)
+    * réutilisation (DRY)
+    * raccourcis
+#. Réduire ses actions en utilisant des outils
+    * code snippets
+    * boiler code
+
+Sommaire
+========
+
+.. class:: tiny
+
+    #. Django
+        * combattre la page blanche
+        * prendre des raccourcis
+        * les décorateurs
+        * les vues génériques
+        * réutiliser des applications
+    #. HTML5
+        * forms
+        * local storage
+        * offiline
+    #. CSS3
+        * pseudo-selectors
+        * text-shadow, box-shadow
+        * border-radius
+        * gradient
+
+Django : Combattre la page blanche
+==================================
+
+Et automatiser le processus de démarrage de projet!
+
+.. class:: center
+
+http://bitbucket.org/magopian/django_base/
+
+Django : prendre des raccourcis
+===============================
+
+.. class:: tiny
+
+    #. HTTP
+        * render_to_response
+        * redirect
+        * get_object_or_404
+        * get_list_or_404
+    #. Templates
+        * render_to_string
+    #. Templatetags
+        * simple_tag
+        * inclusion_tag
+
+Django : les décorateurs
+========================
+
+.. class:: tiny
+
+    * @login_required
+    * @permission_required
+    * @user_passes_test
+    * @register.simple_tag
+    * @register.inclusion_tag
+    * @condition / @last_modified / @etag
+    * @models.permalink
+    * @cache_control / @cache_page / @never_cache
+    * @vary_on_headers / @vary_on_cookie
+    * @autocommit / @commit_on_success / @commit_manually
+    * @csrf_protect / @csrf_exempt
+    * @allow_lazy
+
+
+Django : les vues génériques (1/2)
+==================================
+
+Supprimer complètement la vue (avant)
+-------------------------------------
+
+::
+
+    urlpatterns = ('',
+        url(r'^about/$',
+            about_view,
+            name='about'),
+        ...
+
+    def about_view(request):
+        render_to_response('misc/about.html',
+            context_instance=RequestContext(request))
+
+Django : les vues génériques (1/2)
+==================================
+
+Supprimer complètement la vue (après)
+-------------------------------------
+
+::
+
+    urlpatterns = ('',
+        url(r'^about/$',
+            direct_to_template,
+            {'template': 'misc/about.html',
+            name='about'),
+       ... 
+
+
+Django : les vues génériques (2/2)
+==================================
+
+Réduire la vue : appeler la vue générique (avant)
+-------------------------------------------------
+
+::
+
+    def my_view(request):
+        obj_list = MyModel.objects.filter(foo__exact='bar')
+        return render_to_response('misc/template.html',
+            {'objects': obj_list},
+            context_instance=RequestContext(request))
+    
+    # et dans le template, gérer la pagination
+
+Django : les vues génériques (2/2)
+==================================
+
+Réduire la vue : appeler la vue générique (après)
+-------------------------------------------------
+
+::
+
+    def my_view(request):
+        obj_list = MyModel.objects.filter(foo__exact='bar')
+        return object_list(request, queryset=obj_list)
+
+http://www.b-list.org/weblog/2006/nov/16/django-tips-get-most-out-generic-views/
+
+Django : applications réutilisables
+===================================
+
+.. class:: tiny
+
+#. les applications dans django.contrib
+    * admin
+    * auth
+    * databrowse
+    * flat-pages
+    * sites
+    * ...
+#. les applications externes
+    * django-registration
+    * django-rosetta
+    * django-tinymce
+    * ...
+#. vos applications métier
+    * ...
+
+HTML5 : Markup sémantique
+=========================
+
+Avant
+-----
+
+::
+
+    <div id="header">...</div>
+    <div id="nav">...</div>
+    <div id="side">...</div>
+    <div id="footer">...</div>
+    <div class="section">...</div>
+    <div class="article">...</div>
+
+HTML5 : Markup sémantique
+=========================
+
+Maintenant
+----------
+
+::
+
+    <header>...</header>
+    <nav>...</nav>
+    <aside>...</aside>
+    <footer>...</footer>
+    <section>...</section>
+    <article>...</article>
+
+HTML5 : Formulaires
+===================
+
+Avant
+-----
+
+::
+
+    <label for="email" class="required">
+        Email</label>
+    <input type="text" id="email"
+        value="email@domain.com"
+        onclick="this.select();" />
+    <script src="text/javascript">
+        document.getElementById('email').focus();
+    </script>
+    <label for="url">
+        URL</label>
+    <input type="text" id="url"
+        value="http://domain.com/path/"
+        onclick="this.select();" />
+
+HTML5 : Formulaires
+===================
+
+Maintenant
+----------
+
+::
+
+    <label for="email">Email</label>
+    <input type="email" id="email"
+        required autofocus
+        placeholder="email@domain.com" />
+    <label for="url">URL</label>
+    <input type="url" id="url"
+        placeholder="http://domain.com/path/" />
+
+http://diveintohtml5.org/forms.html
+http://dev.opera.com/articles/view/improve-your-forms-using-html5/
+
+HTML5 : une démonstration
+=========================
+
+http://apirocks.com/html5/html5.html
+
+CSS3 : les pseudo-selecteurs
+============================
+
+Avant
+-----
+
+::
+
+    ul li { display: inline; border-right: 1px; }
+    ul li.last { border-right: none; }
+
+    <ul>
+    {% for entry in entries %}
+        <li
+        {% if forloop.last %}
+            class="last"
+        {% endif %}>
+        {{ entry }}</li>
+    {% endfor %}
+    </ul>
+
+CSS3 : les pseudo-selecteurs
+============================
+
+Maintenant
+----------
+
+::
+
+    ul li { display: inline; border-right: 1px; }
+    ul li:last-child { border-right: none; }
+
+    <ul>
+    {% for entry in entries %}
+        <li>{{ entry }}</li>
+    {% endfor %}
+    </ul>
+
+http://www.w3.org/TR/css3-selectors/
+
+CSS3 : text-shadow
+==================
+
+Avant
+-----
+
+.. |titre_classe| image:: images/titre_classe.png
+    :scale: 200
+
+Utiliser une image!
+
+.. class:: tiny
+
+    * pas sélectionnable
+    * pas de taille modifiable
+    * pas de contraste modifiable
+    * plus lourd
+    * référencement naturel?
+
+.. class:: center
+
+    |titre_classe|
+
+CSS3 : text-shadow
+==================
+
+Maintenant
+----------
+
+::
+
+    <style>
+        h1 { text-shadow: #f00 2px 2px 2px; }
+    </style>
+
+    <h1>Un titre classe</h1>
+
+.. class:: center titre_classe
+
+    Un titre classe
+
+CSS3 : border-radius et box-shadow
+==================================
+
+Avant
+-----
+
+Euh... beaucoup trop long, compliqué, avec plein d'images découpées, et une soupe de div.
+
+CSS3 : border-radius et box-shadow
+==================================
+
+Maintenant
+----------
+
+::
+
+    <style>
+        h1 {
+            display: inline; padding: 5px;
+            border: #f00 1px solid; border-radius: 10px;
+            box-shadow: #f00 2px 2px 6px;
+            text-shadow: #f00 2px 2px 2px;
+        }
+    </style>
+
+.. class:: center titre_classe_rond
+
+    Un titre classe
+
+CSS3 : border-radius et box-shadow
+==================================
+
+Oui, enfin, sauf que en fait...
+-------------------------------
+
+::
+
+    box-shadow: #f00 2px 2px 6px;
+    -webkit-box-shadow: #f00 2px 2px 6px;
+    -moz-box-shadow: #f00 2px 2px 6px;
+    -o-box-shadow: #f00 2px 2px 6px;
+    -khtml-box-shadow: #f00 2px 2px 6px;
+    -ms-box-shadow: #f00 2px 2px 6px;
+
+Conclusion
+==========
+
+Le paradoxe du fainéant : 
+
+.. class:: huge center
+
+    En faire toujours plus
+
+    pour pouvoir en faire moins !
+    
+Conclusion
+==========
+
+Le comble du fainéant : 
+
+.. class:: huge center
+    
+    Faire une présentation pour que d'autres
+
+    en fassent plus à sa place !
+
+http://agopian.info/djangocong/dplf.html

@@ -1,0 +1,181 @@
+<!DOCTYPE HTML>
+<html lang="fr-FR" class="fade">
+<head>
+  <title>Sécuriser ses données</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1274, user-scalable=no">
+  <link rel="stylesheet" href="shower/themes/mozilla/styles/style.css">
+</head>
+<body class="list">
+
+  <header class="caption">
+    <h1>Sécuriser ses données</h1>
+    <p class="footer">
+        <a href="http://mathieu.agopian.info">Mathieu Agopian</a>
+    </p>
+  </header>
+
+  <div id="cover" class="slide shout"><div>
+    <section>
+      <header>
+      <h2>Sécuriser ses données</h2>
+      </header>
+      <small class="byline">
+          Présentation <a href="http://pytong.org/">Pytong</a>, samedi 22 juin 2013
+      </small>
+    </section>
+  </div></div>
+
+  <div id="on-en-parlera-pas" class="slide"><div>
+    <section>
+      <header>
+        <h2>On n'en parlera pas</h2>
+      </header>
+      <ul>
+          <li>sécurisation d'un serveur physique</li>
+          <li>sécurisation d'un serveur web</li>
+          <li>protection contre CSRF, XSS, SQL Injection, NSA</li>
+      </ul>
+      <small class="byline">
+          Les administrateurs système font ça mieux que nous
+      </small>
+    </section>
+  </div></div>
+
+  <div id="on-va-parler-de" class="slide"><div>
+    <section>
+      <header>
+        <h2>On va parler de</h2>
+      </header>
+      <p>La sécurisation de son ordinateur</p>
+      <small class="byline">
+          Y'a pas que les virus dans la vie, y'a les trojan aussi
+      </small>
+    </section>
+  </div></div>
+
+  <div id="le-minimum" class="slide"><div>
+    <section>
+      <header>
+        <h2>Le minimum</h2>
+      </header>
+      <ul>
+          <li>mot de passe (rappel: <a href="http://xkcd.com/936/">XKCD 936</a>)</li>
+          <li>verouillage de la session lors des <abbr title="Away From Keyboard (absent, loin du clavier)">AFK</abbr></li>
+          <li>passphrase sur sa clé SSH</li>
+          <li>aucune info critique dans le code source</li>
+      </ul>
+      <small class="byline">
+          Non, <code>1234</code> n'est pas un mot de passe. <code>h4x0r</code> non plus.
+      </small>
+    </section>
+  </div></div>
+
+  <div id="attention" class="slide"><div>
+    <section>
+      <header>
+        <h2>Mais attention</h2>
+      </header>
+      <ul>
+          <li>pas de wifi public</li>
+          <li>pas d'envoi de données par mail</li>
+          <li>pas d'échange de mots de passe / info critique</li>
+          <li>pas de mot de passe partagé</li>
+          <li>procédures suivies par TOUT le monde</li>
+      </ul>
+      <small class="byline">
+          Le VPN c'est bien. C'est compliqué, mais c'est bien. Mais c'est compliqué.
+      </small>
+    </section>
+  </div></div>
+
+  <div id="pebcak-mais-pas-que" class="slide"><div>
+    <section>
+      <header>
+      <h2><abbr title="Problem Exists Between Chair And Keyboard (le problème, c'est l'interface chaise-clavier)">PEBCAK</abbr> mais pas que</h2>
+      </header>
+      <ul>
+        <li>J'ai oublié juste une fois de ...</li>
+        <li>Vol</li>
+        <li>Retour en garantie</li>
+      </ul>
+      <small class="byline">
+          Que celui qui n'a jamais <abbr title='An electronics device that has been damaged and rendered useless. In other words, "as useful as a brick."'>briqué</abbr> son PC en flashant son bios me jette la première pierre
+      </small>
+    </section>
+  </div></div>
+
+  <div id="tous-foutus" class="slide"><div>
+    <section>
+      <header>
+        <h2>Mais alors, on est tous foutus&nbsp;?</h2>
+      </header>
+      <p>Non, heureusement, il existe une solution&nbsp;: le chiffrage de son disque dur</p>
+      <small class="byline">
+          T'aurais pas plutôt une autre solution&nbsp;?
+      </small>
+    </section>
+  </div></div>
+
+  <div id="trop-complique" class="slide"><div>
+    <section>
+      <header>
+        <h2>Trop compliqué&nbsp;?</h2>
+      </header>
+      <p>Une autre solution&nbsp;: ne pas avoir de données critiques</p>
+      <small class="byline">
+          M'en fou, j'ai rien à cacher
+      </small>
+    </section>
+  </div></div>
+
+  <div id="solution-pragmatique" class="slide"><div>
+    <section>
+      <header>
+        <h2>La solution pragmatique</h2>
+      </header>
+      <ul>
+          <li>connexion aux serveurs en ssh par clé</li>
+          <li>pas de connexion aux serveurs</li>
+          <li>utilisation de scripts (astuce&nbsp;: <a href="http://django-runcommands.rtfd.org/">django-runcommands</a>)</li>
+          <li>utiliser son propre "paste" (<a href="http://www.0bin.net/">0bin.net</a>)</li>
+      </ul>
+      <small class="byline">
+          Tu crois que sécuriser ses données coûte cher&nbsp;? Attends de t'en être fait voler pour voir
+      </small>
+    </section>
+  </div></div>
+
+  <div id="solution-pragmatique-bd" class="slide"><div>
+    <section>
+      <header>
+        <h2>La solution pragmatique (DB)</h2>
+      </header>
+      <ul>
+          <li>pas de dump de la DB de production</li>
+          <li>ou alors anonymisé (user, profile)</li>
+          <li>utiliser un script de génération de données de test</li>
+          <li>utiliser http://factoryboy.rtfd.org</li>
+      </ul>
+      <small class="byline">
+          Tout anonymiser (nom, prénom, pass, adresse, mail, n° sécu ...) ou générer des données au hasard&nbsp;?
+      </small>
+    </section>
+  </div></div>
+
+  <div id="conclusion" class="slide"><div>
+    <section>
+      <header>
+        <h2>Conclusion&nbsp;: open-source</h2>
+      </header>
+      <p>Faire de l'open-source, c'est se forcer à faire les choses bien.</p>
+      <small class="byline">
+          Force à se poser les bonnes questions, à réfléchir à ce qu'on publie, aux données qu'on fournit
+      </small>
+    </section>
+  </div></div>
+
+  <div class="progress"><div></div></div>
+  <script src="shower/scripts/script.js"></script>
+</body>
+</html>

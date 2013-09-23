@@ -1,0 +1,524 @@
+<!DOCTYPE HTML>
+<html lang="fr-FR" class="fade">
+<head>
+  <title>PyTest et WebTest</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1274, user-scalable=no">
+  <link rel="stylesheet" href="shower/themes/mozilla/styles/style.css">
+</head>
+<body class="list">
+
+  <header class="caption">
+    <h1>PyTest et WebTest</h1>
+    <p class="footer">
+        <a href="http://mathieu.agopian.info">Mathieu Agopian</a>
+    </p>
+  </header>
+
+  <div id="cover" class="slide shout"><div>
+    <section>
+      <header>
+      <h2>PyTest et WebTest</h2>
+      </header>
+      <small class="byline">
+          Présentation <a href="http://rencontres.django-fr.org/">Djangocong</a>, samedi 28 Septembre 2013
+      </small>
+    </section>
+  </div></div>
+
+  <div id="pytest-et-webtest" class="slide"><div>
+    <section>
+      <header>
+        <h2>Sommaire</h2>
+      </header>
+      <ul>
+          <li><a href="http://pytest.org">PyTest</a> pour les tests unitaires</li>
+          <li><a href="http://webtest.readthedocs.org/">WebTest</a> pour les tests fonctionnels</li>
+      </ul>
+      <small class="byline">
+          Parce qu'on le vaut bien, après tout
+      </small>
+    </section>
+  </div></div>
+
+  <div id="pytest-tests-unitaires" class="slide"><div>
+    <section>
+      <header>
+        <h2>PyTest&nbsp;: pour les tests unitaires</h2>
+      </header>
+      <p>Par Holger Krekel, l'auteur entre autres de <a href="http://tox.readthedocs.org/">Tox</a>, <a href="http://pypy.org">pypy</a>, <a href="http://doc.devpi.net/">devpi</a></p>
+      <p>Un remplaçant (mais existant depuis plus longtemps) à Unittest</p>
+      <p>Bien plus avancé, évolué, et pratique</p>
+      <small class="byline">
+          Il y a des gens sur terre qui sont pas comme nous
+      </small>
+    </section>
+  </div></div>
+
+  <div id="pytest-install" class="slide"><div>
+    <section>
+      <header>
+        <h2>Installation et utilisation</h2>
+      </header>
+      <ol>
+          <li><code>pip install pytest pytest-django pytest-cov</code></li>
+          <li><code>py.test</code></li>
+      </ol>
+      <p><strong>py.test est compatible avec votre code actuel</strong></p>
+      <small class="byline">
+          bah non, c'est pas plus compliqué
+      </small>
+    </section>
+  </div></div>
+
+  <div id="pytest-bonus" class="slide"><div>
+    <section>
+      <header>
+        <h2>Bonus</h2>
+      </header>
+      <ul>
+          <li>Liste des 10 tests les plus lents&nbsp;: <code>--duration=10</code></li>
+          <li>S'arrêter après le premier échec&nbsp;: <code>-x</code> (ou <code>--maxfail=n</code>)</li>
+          <li>Direct dans pdb&nbsp;: <code>--pdb</code></li>
+          <li>Direct sur pastebin&nbsp;: <code>--pastebin=failed</code></li>
+          <li>Modification des tracebacks&nbsp;: <code>--showlocals --tb=long</code></li>
+      </ul>
+      <small class="byline">
+          Tout ça c'est gratuit. Je vous enverrai ma facture
+      </small>
+    </section>
+  </div></div>
+
+  <div id="pytest-bonus-bis" class="slide"><div>
+    <section>
+      <header>
+      <h2>Bonus (bis)</h2>
+      </header>
+      <p>Lancer seulement certains tests&nbsp;:</p>
+      <ul>
+          <li>par nom&nbsp;: <code>-k test_foo</code></li>
+          <li>par chemin&nbsp;: <code>tests/bar/</code></li>
+          <li>par module&nbsp;: <code>test_baz.py</code></li>
+          <li>par « mark »&nbsp;: <code>-m functional</code> ou <code>-m "not functional"</code></li>
+      </ul>
+      <small class="byline">
+          Tant de bonheur, est-ce seulement possible&nbsp;?
+      </small>
+    </section>
+  </div></div>
+
+  <div id="pytest-db" class="slide"><div>
+    <section>
+      <header>
+        <h2>Réutiliser la base de données</h2>
+      </header>
+      <ul>
+          <li>Réutiliser la BDD&nbsp;: <code>--reuse-db</code></li>
+          <li>Forcer la création de la BDD&nbsp;: <code>--create-db</code></li>
+          <li>Options par défaut dans le fichier <em>pytest.ini</em></li>
+      </ul>
+      <pre>
+        <code>[pytest]</code>
+        <code>addopts = --reuse-db --x --pdb --tb=native</code>
+      </pre>
+      <small class="byline">
+          20 secondes économisées à chaque run, ça aussi c'est gratuit
+      </small>
+    </section>
+  </div></div>
+
+  <div id="pytest-autorize-db" class="slide"><div>
+    <section>
+      <header>
+        <h2>Autoriser l'accès à la BDD</h2>
+      </header>
+      <p><code>@pytest.mark.django_db</code></p>
+      <p>Autoriser, explicitement, l'accès à la BDD.</p>
+      <p>On écrit des tests <strong>unitaires</strong>, et dans la mesure du possible, <strong>rapides</strong>.</p>
+      <small class="byline">
+          C'est pour ton bien, crois moi
+      </small>
+    </section>
+  </div></div>
+
+  <div id="pytest-autorize-db-sometimes" class="slide"><div>
+    <section>
+      <header>
+        <h2>Autoriser l'accès, parfois</h2>
+      </header>
+      <pre>
+        <code>@pytest.mark.django_db</code>
+        <code>def test_avec_db(self):  # fonction/méthode</code>
+      </pre>
+      <pre>
+        <code>@pytest.mark.django_db</code>
+        <code>class TestFoo(TestCase):  # classe</code>
+      </pre>
+      <pre>
+        <code>pytestmark = pytest.mark.django_db  # module</code>
+      </pre>
+      <small class="byline">
+          Si tu veux te tirer une balle dans le pied, tu peux
+      </small>
+    </section>
+  </div></div>
+
+  <div id="pytest-authorize-db-always" class="slide"><div>
+    <section>
+      <header>
+        <h2>Nan sérieux, lâche moi la BDD</h2>
+      </header>
+      <p>dans <em>conftest.py</em></p>
+      <pre>
+        <code>def pytest_collection_modifyitems(items):</code>
+        <code>    for item in items:</code>
+        <code>        item.keywords['django_db'] = pytest.mark.django_db</code>
+      </pre>
+      <small class="byline">
+          Tu l'aura voulu
+      </small>
+    </section>
+  </div></div>
+
+  <div id="pytest-marks" class="slide"><div>
+    <section>
+      <header>
+        <h2>Les « marks »</h2>
+      </header>
+      <ul>
+          <li>Lister les <em>mark</em> disponibles&nbsp;: <code>--markers</code></li>
+          <li>Ajouter ses propres <em>mark</em> dans <em>pytest.ini</em>&nbsp;:</li>
+      </ul>
+      <pre>
+        <code>[pytest]</code>
+        <code>markers =</code>
+        <code>    functional: mark a test as functional.</code>
+      </pre>
+      <p>Puis <code>-m functional</code> ou <code>-m "not functional"</code></p>
+      <small class="byline">
+          @pytest.mark.magique
+      </small>
+    </section>
+  </div></div>
+
+  <div id="pytest-assertions-unittest" class="slide"><div>
+    <section>
+      <header>
+        <h2>Les assertions selon Unittest</h2>
+      </header>
+      <code>self.assertEqual(foo(), 2)</code>
+      <pre>
+        <code>  File "/home/mathieu/tests/test_example.py", line 11, in test_bidon</code>
+        <code>    self.assertEqual(foo(), 2)</code>
+        <code>  File "/usr/lib64/python2.7/unittest/case.py", line 515, in assertEqual</code>
+        <code>    assertion_func(first, second, msg=msg)</code>
+        <code>  File "/usr/lib64/python2.7/unittest/case.py", line 508, in _baseAssertEqual</code>
+        <code>    raise self.failureException(msg)</code>
+        <code>AssertionError: 1 != 2</code>
+      </pre>
+      <small class="byline">
+          trop verbeux, et inutile&nbsp;?
+      </small>
+    </section>
+  </div></div>
+
+  <div id="pytest-assertions" class="slide"><div>
+    <section>
+      <header>
+        <h2>Les assertions selon py.test</h2>
+      </header>
+      <code>assert foo() == 2</code>
+      <pre>
+        <code>  File "/home/mathieu/tests/test_example.py", line 13, in test_bidon</code>
+        <code>    assert foo() == 2</code>
+        <code>AssertionError: assert 1 == 2</code>
+        <code> +  where 1 = foo()</code>
+      </pre>
+      <small class="byline">
+          assert pytest == 'much better, innit?'
+      </small>
+    </section>
+  </div></div>
+
+  <div id="pytest-assertions-unittest-bis" class="slide"><div>
+    <section>
+      <header>
+        <h2>Les assertions selon unittest (bis)</h2>
+      </header>
+      <code>assert {'foo': 1} == {'foo': 2, 'bar': 2}</code>
+      <pre>
+       <code>AssertionError: {'foo': 1} != {'foo': 2, 'bar': 2}</code>
+       <code>- {'foo': 1}</code>
+       <code>+ {'bar': 2, 'foo': 2}</code>
+      </pre>
+      <small class="byline">
+          peut mieux faire
+      </small>
+    </section>
+  </div></div>
+
+  <div id="pytest-assertions-bis" class="slide"><div>
+    <section>
+      <header>
+        <h2>Les assertions selon py.test (bis)</h2>
+      </header>
+      <code>assert {'foo': 1} == {'foo': 2, 'bar': 2}</code>
+      <pre>
+        <code>AssertionError: assert {'foo': 1} == {'bar': 2, 'foo': 2}</code>
+        <code>  Differing items:</code>
+        <code>  {'foo': 1} != {'foo': 2}</code>
+        <code>  Right contains more items:</code>
+        <code>  {'bar': 2}</code>
+      </pre>
+      <small class="byline">
+          C'est que le début, d'accord, d'accord
+      </small>
+    </section>
+  </div></div>
+
+  <div id="pytest-configuration" class="slide"><div>
+    <section>
+      <header>
+        <h2>Configuration</h2>
+      </header>
+      <p>Au niveau global, dans le fichier <em>pytest.ini</em>&nbsp;: principalement pour la déclaration des « mark » et les options par défaut</p>
+      <p>Au niveau local, impacte le répertoire en cours et ses descendants, dans le fichier <em>conftest.py</em>&nbsp;: pour les fixtures, les plugins, les hooks</p>
+      <small class="byline">
+          On parle pas du même impact
+      </small>
+    </section>
+  </div></div>
+
+  <div id="pytest-fixtures" class="slide"><div>
+    <section>
+      <header>
+        <h2>Les fixtures&nbsp;: injection de dépendances</h2>
+      </header>
+      <p>La partie (mal?)heureusement magique de py.test</p>
+      <pre>
+        <code>def test_view(rf, settings):</code>
+        <code>    assert rf.get('/').path == '/'</code>
+        <code>    settings.USE_TZ = True</code>
+        <code>    assert settings.USE_TZ</code>
+      </pre>
+      <small class="byline">
+          abracadabra
+      </small>
+    </section>
+  </div></div>
+
+  <div id="pytest-fixture-setup-view" class="slide"><div>
+    <section>
+      <header>
+        <h2>Les fixtures&nbsp;: setup-view</h2>
+      </header>
+      <p>Pour <a href="http://tech.novapost.fr/django-unit-test-your-views-en.html">tester unitairement ses vues</a></p>
+      <pre>
+        <code>@pytest.fixture(scope='session')</code>
+        <code>def setup_view():</code>
+        <code>    def _setup_view(view, request, *args, **kwargs):</code>
+        <code>        view.request = request</code>
+        <code>        view.args = args</code>
+        <code>        view.kwargs = kwargs</code>
+        <code>        return view</code>
+        <code>    return _setup_view</code>
+      </pre>
+      <small class="byline">
+          Spéciale dédicace Benoit Bryon
+      </small>
+    </section>
+  </div></div>
+
+  <div id="pytest-fixtures-examples" class="slide"><div>
+    <section>
+      <header>
+          <h2>Les fixtures&nbsp;: <a href="https://gist.github.com/magopian/6673250">des exemples</a></h2>
+      </header>
+      <ul>
+          <li><code>setup-view</code>&nbsp;: <a href="http://tech.novapost.fr/django-unit-test-your-views-en.html">tester unitairement ses vues</a></li>
+          <li><code>stubber</code>&nbsp;: pour des stub faciles</li>
+          <li><code>stub_save</code>&nbsp;: pour tester Model.save() sans toucher à la BDD</li>
+          <li><code>stub_save</code>&nbsp;: pour tester Model.save() sans toucher à la BDD</li>
+          <li><code>app</code>&nbsp;: une application WebTest</li>
+          <li><code>view</code>, <code>user</code>, <code>form</code>...</li>
+      </ul>
+      <small class="byline">
+          the limit is the sky! (or beyond)
+      </small>
+    </section>
+  </div></div>
+
+  <div id="pytest-parametrize" class="slide"><div>
+    <section>
+      <header>
+          <h2>Les paramètres</h2>
+      </header>
+      <p>Écrire une seule fois le test, le lancer avec plusieurs entrées</p>
+      <pre>
+        <code>@pytest.mark.parametrize(("input", "expected"),</code>
+        <code>                         [("3+5", 8), ("2+4", 6)])</code>
+        <code>def test_eval(input, expected):</code>
+        <code>    assert eval(input) == expected</code>
+      </pre>
+      <small class="byline">
+          y'a un peu plus, je vous le met quand même&nbsp;?
+      </small>
+    </section>
+  </div></div>
+
+  <div id="pytest-fixtures-parameterize" class="slide"><div>
+    <section>
+      <header>
+          <h2>Les fixtures et les paramètres</h2>
+      </header>
+      <pre>
+        <code>@pytest.fixture(scope="module",</code>
+        <code>                params=["merlinux.eu", "mail.python.org"])</code>
+        <code>def smtp(request):</code>
+        <code>    smtp = smtplib.SMTP(request.param)</code>
+        <code>    def fin():</code>
+        <code>        smtp.close()</code>
+        <code>    request.addfinalizer(fin)</code>
+        <code>    return smtp</code>
+      </pre>
+      <small class="byline">
+          double rainbow all the way!
+      </small>
+    </section>
+  </div></div>
+
+  <div id="webtest-tests-fonctionnels" class="slide"><div>
+    <section>
+      <header>
+        <h2>WebTest&nbsp;: pour les tests fonctionnels</h2>
+      </header>
+      <p>Par Ian Bicking, l'auteur entre autres de... <a href="http://www.ianbicking.org/projects.html">pfouuu</a> (<a href="http://www.pip-installer.org/">pip</a>, <a href="http://www.virtualenv.org/">virtualenv</a>, <a href="http://webob.org/">WebOb</a>)</p>
+      <p>Un remplaçant au client de test de Django, qui fonctionne au niveau WSGI au lieu de HTTP</p>
+      <small class="byline">
+          les gars de MIB avaient raison
+      </small>
+    </section>
+  </div></div>
+
+  <div id="webtest-install" class="slide"><div>
+    <section>
+      <header>
+        <h2>Installation et utilisation</h2>
+      </header>
+      <ol>
+          <li><code>pip install webtest django-webtest</code></li>
+          <li><code>py.test</code></li>
+      </ol>
+      <p><strong>webtest est compatible avec votre code actuel</strong> (ou presque)</p>
+      <small class="byline">
+          ok, c'est pas tout à fait compatible, mais franchement, pas loin
+      </small>
+    </section>
+  </div></div>
+
+  <div id="webtest-auto-test" class="slide"><div>
+    <section>
+      <header>
+        <h2>Tests automatiques</h2>
+      </header>
+      <ul>
+          <li>status code 2xx ou 3xx (sinon <code>status=404</code> ou <code>status="*"</code>)</li>
+          <li>réponse WSGI valide</li>
+          <li>pas d'erreurs envoyées dans <code>environ['wsgi.errors']</code></li>
+      </ul>
+      <small class="byline">
+          que c'est bon d'être fainéant
+      </small>
+    </section>
+  </div></div>
+
+  <div id="webtest-csrf" class="slide"><div>
+    <section>
+      <header>
+        <h2>CSRF</h2>
+      </header>
+      <p>Les validations de CSRF ne sont pas désactivés</p>
+      <p>Du coup, les <em>raw post</em> sont plus compliqués... heureusement qu'on en fait pas souvent</p>
+      <pre>
+        <code>class MyTestCase(WebTest):</code>
+        <code>    csrf_checks = False</code>
+      </pre>
+      <small class="byline">
+          c'est pour ton bien, je te dis
+      </small>
+    </section>
+  </div></div>
+
+  <div id="webtest-form-submission" class="slide"><div>
+    <section>
+      <header>
+        <h2>Soumission de formulaires</h2>
+      </header>
+      <pre>
+        <code>def test_login(self)</code>
+        <code>    form = self.app.get(reverse('auth_login')).form</code>
+        <code>    form['username'] = 'foo'</code>
+        <code>    form['password'] = 'bar'</code>
+        <code>    res = form.submit().follow()</code>
+        <code>    assert res.context['user'].username == 'foo'</code>
+      </pre>
+      <small class="byline">
+          puisque je te dis que c'est mieux comme ça
+      </small>
+    </section>
+  </div></div>
+
+  <div id="webtest-click" class="slide"><div>
+    <section>
+      <header>
+        <h2>Clicks</h2>
+      </header>
+      <p>click sur un lien dans une response suivant un pattern sur&nbsp;:</p>
+      <ul>
+          <li>description&nbsp;: contenu (tout ce qui est entre <code>&lt;a&gt;</code> et <code>&lt;/a&gt;</code>)</li>
+          <li>linkid&nbsp;: attribut <em>id</em></li>
+          <li>href&nbsp;: attribut <em>href</em></li>
+          <li>index&nbsp;: numéro du lien</li>
+      </ul>
+      <small class="byline">
+          y clique à gauche, y clique à droite, y clique tout droit
+      </small>
+    </section>
+  </div></div>
+
+  <div id="webtest-pyquery" class="slide"><div>
+    <section>
+      <header>
+          <h2>Validation d'un contenu avec <a href="http://pythonhosted.org/pyquery/">PyQuery</a></h2>
+      </header>
+      <p>Fournit une interface à la jQuery pour faire des requêtes</p>
+      <ul>
+          <li>nb commentaires&nbsp;: <code>len(res.pyquery.find('.comment'))</code></li>
+          <li>contenu&nbsp;: <code>res.pyquery.find('#foo')) == 'foo'</code></li>
+          <li>et sinon, lxml, json, <a href="http://www.crummy.com/software/BeautifulSoup/bs3/documentation.html">beautiful soup</a></li>
+      </ul>
+      <small class="byline">
+          ouais, je sais, jQuery...
+      </small>
+    </section>
+  </div></div>
+
+  <div id="webtest-showbrowser" class="slide"><div>
+    <section>
+      <header>
+          <h2>Showbrowser</h2>
+      </header>
+      <p>Juste magique quand on debug ses tests fonctionnels, a utiliser avec l'option <code>--pdb</code> de py.test&nbsp;:</p>
+      <pre>
+        <code>>>> res.showbrowser()</code>
+      </pre>
+      <small class="byline">
+          la première fois, j'ai failli m'évanouir, encore mieux que le screenshot
+      </small>
+    </section>
+  </div></div>
+
+  <div class="progress"><div></div></div>
+  <script src="shower/scripts/script.js"></script>
+</body>
+</html>

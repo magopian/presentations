@@ -310,7 +310,7 @@
   <div id="pytest-fixture-setup-view" class="slide"><div>
     <section>
       <header>
-        <h2>Les fixtures&nbsp;: setup-view</h2>
+        <h2>Les fixtures&nbsp;: setup_view</h2>
       </header>
       <p>Pour <a href="http://tech.novapost.fr/django-unit-test-your-views-en.html">tester unitairement ses vues</a></p>
       <pre>
@@ -335,7 +335,7 @@
           <h2>Les fixtures&nbsp;: <a href="https://gist.github.com/magopian/6673250">des exemples</a></h2>
       </header>
       <ul>
-          <li><code>setup-view</code>&nbsp;: <a href="http://tech.novapost.fr/django-unit-test-your-views-en.html">tester unitairement ses vues</a></li>
+          <li><code>setup_view</code>&nbsp;: <a href="http://tech.novapost.fr/django-unit-test-your-views-en.html">tester unitairement ses vues</a></li>
           <li><code>stubber</code>&nbsp;: pour des stub faciles</li>
           <li><code>stub_save</code>&nbsp;: pour tester Model.save() sans toucher à la BDD</li>
           <li><code>stub_save</code>&nbsp;: pour tester Model.save() sans toucher à la BDD</li>
@@ -500,6 +500,7 @@
           <li>href&nbsp;: attribut <em>href</em></li>
           <li>index&nbsp;: numéro du lien</li>
       </ul>
+      <p>Exemple&nbsp;: <code>res.click(href=reverse('login'))</code></p>
       <small class="byline">
           y clique à gauche, y clique à droite, y clique tout droit
       </small>

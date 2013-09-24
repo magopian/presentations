@@ -416,6 +416,26 @@
     </section>
   </div></div>
 
+  <div id="webtest-tip" class="slide"><div>
+    <section>
+      <header>
+          <h2>Utiliser WebTest avec py.test</h2>
+      </header>
+      <p>Pour utiliser django-webtest avec py.test, créer la fixture&nbsp;:</p>
+      <pre>
+        <code>@pytest.fixture(scope='function')</code>
+        <code>def app(request):</code>
+        <code>    wtm = django_webtest.WebTestMixin()</code>
+        <code>    wtm._patch_settings()</code>
+        <code>    request.addfinalizer(wtm._unpatch_settings)</code>
+        <code>    return django_webtest.DjangoTestApp()</code>
+      </pre>
+      <small class="byline">
+        comment ça, qui a dit "ouh le gros hack&nbsp;!", qu'il se dénonce
+      </small>
+    </section>
+  </div></div>
+
   <div id="webtest-auto-test" class="slide"><div>
     <section>
       <header>

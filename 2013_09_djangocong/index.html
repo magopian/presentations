@@ -245,7 +245,7 @@
       <header>
         <h2>Les assertions selon unittest (bis)</h2>
       </header>
-      <code>assert {'foo': 1} == {'foo': 2, 'bar': 2}</code>
+      <code>self.assertEqual({'foo': 1}, {'foo': 2, 'bar': 2})</code>
       <pre>
        <code>AssertionError: {'foo': 1} != {'foo': 2, 'bar': 2}</code>
        <code>- {'foo': 1}</code>
@@ -337,7 +337,6 @@
       <ul>
           <li><code>setup_view</code>&nbsp;: <a href="http://tech.novapost.fr/django-unit-test-your-views-en.html">tester unitairement ses vues</a></li>
           <li><code>stubber</code>&nbsp;: pour des stub faciles</li>
-          <li><code>stub_save</code>&nbsp;: pour tester Model.save() sans toucher à la BDD</li>
           <li><code>stub_save</code>&nbsp;: pour tester Model.save() sans toucher à la BDD</li>
           <li><code>app</code>&nbsp;: une application WebTest</li>
           <li><code>view</code>, <code>user</code>, <code>form</code>...</li>

@@ -1,0 +1,637 @@
+<!DOCTYPE HTML>
+<html lang="fr-FR" class="fade">
+<head>
+  <title>Passer de unittest/nose à py.test</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1274, user-scalable=no">
+  <link rel="stylesheet" href="shower/themes/mozilla/styles/style.css">
+</head>
+<body class="list">
+
+  <header class="caption">
+    <h1>Passer de unittest/nose à py.test</h1>
+    <p class="footer">
+        <a href="http://mathieu.agopian.info">Mathieu Agopian</a>
+    </p>
+  </header>
+
+  <div id="cover" class="slide shout"><div>
+    <section>
+      <header>
+      <h2>Passer à py.test</h2>
+      </header>
+      <small class="byline">
+          Présentation <a
+            href="http://rencontres.django-fr.org/2015">Djangocong</a>, samedi 9 Mai 2015
+      </small>
+    </section>
+  </div></div>
+
+  <div id="toc" class="slide"><div>
+    <section>
+      <header>
+        <h2>Sommaire</h2>
+      </header>
+      <ul>
+          <li>Qu'est-ce que py.test</li>
+          <li>Pourquoi py.test au lieu de unittest/nose</li>
+          <li>Comment passer à py.test</li>
+      </ul>
+      <small class="byline">
+          Et même un petit bonus si <span class="nope">vous êtes sages</span>on a le temps
+      </small>
+    </section>
+  </div></div>
+
+  <div id="what" class="slide shout"><div>
+    <section>
+      <header>
+      <h2>Quoi</h2>
+      </header>
+    </section>
+  </div></div>
+
+  <div id="pytest-what-is-it" class="slide"><div>
+    <section>
+      <header>
+        <h2>Qu'est-ce que py.test</h2>
+      </header>
+      <p>Par Holger Krekel, l'auteur entre autres de
+        <a href="http://tox.readthedocs.org/">Tox</a>,
+        <a href="http://pypy.org">pypy</a>,
+        <a href="http://doc.devpi.net/">devpi</a></p>
+      <p>Un équivalent à Unittest, mâture, avec une excellent API et
+        d'excellentes possibilité de personalisation.</p>
+      <p>Toujours <a href="https://bitbucket.org/pytest-dev/pytest/">activement développé</a>,
+        et <a href="https://pytest.org">très bien documenté</a>.</p>
+      <p>Installation&nbsp;: <code>pip install pytest</code></p>
+      <small class="byline">
+          C'est mieux, je vous le dis.
+      </small>
+    </section>
+  </div></div>
+
+  <div id="pytest-features-1" class="slide"><div>
+    <section>
+      <header>
+        <h2>Fonctionalités</h2>
+      </header>
+      <p>
+        Écriture de tests sans boilerplate:
+        <ul>
+          <li>Avec py.test&nbsp;: <code>assert 1 + 1 == 2</code></li>
+          <li>Avec unittest&nbsp;: <code>self.assertEqual(1 + 1, 2)</code></li>
+        </ul>
+      <p><strong>py.test est compatible avec votre code actuel</strong>&nbsp;:
+        <a href="https://pytest.org/latest/unittest.html">unittest</a>,
+        <a href="https://pytest.org/latest/nose.html">nose</a>,
+        <a href="https://pytest.org/latest/doctest.html">doctest</a>,
+        <a href="https://pytest.org/latest/example/nonpython.html">autres</a></p>
+      <small class="byline">
+          Un brin de mauvaise foi.
+      </small>
+    </section>
+  </div></div>
+
+  <div id="pytest-features-2" class="slide"><div>
+    <section>
+      <header>
+        <h2>Fonctionalités</h2>
+      </header>
+      <ul>
+          <li>Système de
+            <a href="https://pytest.org/latest/plugins.html#pytest-default-plugin-reference">plugins</a>
+            et de
+            <a href="https://pytest.org/latest/plugins.html#pytest-default-plugin-reference">personalisation avancé</a></li>
+          <li>Liste des 10 tests les plus lents&nbsp;: <code>--duration=10</code></li>
+          <li>S'arrêter après le premier échec&nbsp;: <code>-x</code> (ou <code>--maxfail=n</code>)</li>
+          <li>Direct dans pdb&nbsp;: <code>--pdb</code></li>
+          <li>Direct sur pastebin&nbsp;: <code>--pastebin=failed</code></li>
+          <li>Modification des tracebacks&nbsp;: <code>--showlocals --tb=long</code></li>
+      </ul>
+      <small class="byline">
+          Quand y'en a plus, y'en a encore.
+      </small>
+    </section>
+  </div></div>
+
+  <div id="pytest-features-3" class="slide"><div>
+    <section>
+      <header>
+        <h2>Fonctionalités</h2>
+      </header>
+      <ul>
+          <li><a href="https://pytest.org/latest/mark.html">Marquer</a> certains tests&nbsp;:
+            <code>@pytest.mark.functional</code></li>
+          <li>Lancer seulement <a href="https://pytest.org/latest/usage.html">certains tests</a><br/>
+            par nom&nbsp;: <code>-k test_foo</code></br>
+            par chemin&nbsp;: <code>tests/bar/</code></br>
+            par module&nbsp;: <code>test_baz.py</code></br>
+            par « mark »&nbsp;: <code>-m functional</code> ou <code>-m "not functional"</code></li>
+      </ul>
+      <small class="byline">
+          C'est bientôt fini. Peut-être.
+      </small>
+    </section>
+  </div></div>
+
+  <div id="pytest-assert-introspection" class="slide"><div>
+    <section>
+      <p><a
+        href="https://pytest.org/latest/example/reportingdemo.html">rapports d'échecs intelligents</a>&nbsp;:</p>
+      <pre class="longlist">
+        <code>def test_eq_dict(self):</code>
+        <code>>       assert {'a': 0, 'b': 1, 'c': 0} == {'a': 0, 'b': 2, 'd': 0}</code>
+        <code>E       assert {'a': 0, 'b': 1, 'c': 0} == {'a': 0, 'b': 2, 'd': 0}</code>
+        <code>E         Omitting 1 identical items, use -v to show</code>
+        <code>E         Differing items:</code>
+        <code>E         {'b': 1} != {'b': 2}</code>
+        <code>E         Left contains more items:</code>
+        <code>E         {'c': 0}</code>
+        <code>E         Right contains more items:</code>
+        <code>E         {'d': 0}</code>
+        <code>E         Use -v to get the full diff</code>
+      </pre>
+      <small class="byline">
+          Il y en a beaucoup d'autres. Beaucoup.
+      </small>
+    </section>
+  </div></div>
+
+  <div id="pytest-fixtures" class="slide"><div>
+    <section>
+      <header>
+        <h2>Injection de dépendance</h2>
+      </header>
+      <p>Fixtures par <a href="https://pytest.org/latest/fixture.html">injection de dépendance</a>,
+        peuvent être utilisées à la place de <code>(setUp|tearDown)(function|class|module|package)</code></p>
+      <pre>
+        <code>def test_view(rf, settings):</code>
+        <code>    settings.LANGUAGE_CODE = 'fr'</code>
+        <code>    request = rf.get('/')</code>
+        <code>    response = home_view(request)</code>
+        <code>    assert response.status_code == 302</code>
+      </pre>
+      <small class="byline">
+          abracadabra
+      </small>
+    </section>
+  </div></div>
+
+  <div id="pytest-fixtures-2" class="slide"><div>
+    <section>
+      <header>
+        <h2>Remplace avantageusement celles de unittest</h2>
+      </header>
+      <p>Fixtures par <a href="https://pytest.org/latest/fixture.html">injection de dépendance</a>&nbsp;:
+      <pre>
+        <code>def test_view(rf, settings):</code>
+        <code>    settings.LANGUAGE_CODE = 'fr'</code>
+        <code>    request = rf.get('/')</code>
+        <code>    response = home_view(request)</code>
+        <code>    assert response.status_code == 302</code>
+      </pre>
+      <small class="byline">
+          abracadabra
+      </small>
+    </section>
+  </div></div>
+
+  <div id="pytest-parametrize" class="slide"><div>
+    <section>
+      <header>
+          <h2>Les paramètres</h2>
+      </header>
+      <p>Écrire une seule fois le test, le lancer avec plusieurs entrées</p>
+      <pre>
+        <code>@pytest.mark.parametrize(("input", "expected"),</code>
+        <code>                         [("3+5", 8), ("2+4", 6)])</code>
+        <code>def test_eval(input, expected):</code>
+        <code>    assert eval(input) == expected</code>
+      </pre>
+      <small class="byline">
+          Travailler <span class="nope">plus</span>moins pour tester plus
+      </small>
+    </section>
+  </div></div>
+
+  <div id="pytest-pytest-ini" class="slide"><div>
+    <section>
+      <header>
+        <h2>Configuration&nbsp;: pytest.ini</h2>
+      </header>
+      <p>Au niveau global, dans le fichier <em>pytest.ini</em>&nbsp;: principalement pour la déclaration des « mark » et les options par défaut</p>
+      <pre>
+        <code>[pytest]</code>
+        <code>addopts = --reuse-db --tb=native</code>
+        <code>python_files=test*.py</code>
+        <code>markers =</code>
+        <code>    es_tests: mark a test as an elasticsearch test.</code>
+      </pre>
+      <small class="byline">
+          --reuse-db c'est de la balle
+      </small>
+    </section>
+  </div></div>
+
+  <div id="pytest-conftest-py" class="slide"><div>
+    <section>
+      <header>
+        <h2>Configuration&nbsp;: conftest.py</h2>
+      </header>
+      <p>Au niveau local, impacte le répertoire en cours et ses descendants&nbsp;: pour les fixtures, les plugins, les hooks</p>
+      <pre class="longlist">
+        <code>import pytest, os</code>
+        <code> </code>
+        <code>def pytest_configure():</code>
+        <code>    # Shortcut to using DJANGO_SETTINGS_MODULE=... py.test</code>
+        <code>    os.environ['DJANGO_SETTINGS_MODULE'] = 'settings_test'</code>
+        <code>    # There's a lot of python path hackery done in our manage.py</code>
+        <code>    import manage  # noqa</code>
+      </pre>
+      <small class="byline">
+          On parle pas du même impact
+      </small>
+    </section>
+  </div></div>
+
+  <div id="pytest-plugins" class="slide"><div>
+    <section>
+      <header>
+        <h2>Plugins</h2>
+      </header>
+      <p>Il existe de très nombreux plugins
+        <a href="https://pytest.org/latest/plugins.html#pytest-default-plugin-reference">intégrés</a>,
+        mais aussi
+        <a href"https://pytest.org/latest/plugins_index/index.html">de la communauté</a>&nbsp;</p>
+      <ul>
+        <li><a href="http://pytest-django.readthedocs.org/">pytest-django</a>&nbsp;:
+          <code>--create-db</code>, fixtures (rf, client, admin_client...)</li>
+        <li><a href="https://pypi.python.org/pypi/pytest-cov">pytest-cov</a>&nbsp;:
+          <code>--cov myproj tests/</code></li>
+        <li><a href="https://pythonhosted.org/pytest-cache/readme.html">pytest-cache</a>&nbsp;:
+          <code>--lf</code></li>
+        <li><a href="https://pytest.org/latest/xdist.html">pytest-xdist</a>&nbsp;:
+          <code>-n NUM</code></li>
+      </ul>
+      <small class="byline">
+          Des plugins, comme s'il en pleuvait &#x266B;
+      </small>
+    </section>
+  </div></div>
+
+  <div id="pytest-db" class="slide"><div>
+    <section>
+      <header>
+        <h2>pytest-django&nbsp;: réutiliser la DB</h2>
+      </header>
+      <ul>
+          <li>Réutiliser la DB&nbsp;: <code>--reuse-db</code></li>
+          <li>Forcer la création de la DB&nbsp;: <code>--create-db</code></li>
+          <li>Options par défaut dans le fichier <em>pytest.ini</em></li>
+      </ul>
+      <pre>
+        <code>[pytest]</code>
+        <code>addopts = --reuse-db</code>
+      </pre>
+      <small class="byline">
+          bon pour ma santé mentale
+      </small>
+    </section>
+  </div></div>
+
+  <div id="pytest-autorize-db" class="slide"><div>
+    <section>
+      <header>
+        <h2>Autoriser l'accès à la DB explicitement</h2>
+      </header>
+      <pre>
+        <code>@pytest.mark.django_db</code>
+        <code>def test_avec_db(self):  # fonction/méthode</code>
+      </pre>
+      <pre>
+        <code>@pytest.mark.django_db</code>
+        <code>class TestFoo(TestCase):  # classe</code>
+      </pre>
+      <pre>
+        <code>pytestmark = pytest.mark.django_db  # module</code>
+      </pre>
+      <small class="byline">
+          De toute manière, qui a besoin d'une DB de nos jours
+      </small>
+    </section>
+  </div></div>
+
+  <div id="pytest-authorize-db-always" class="slide"><div>
+    <section>
+      <header>
+        <h2>Autoriser l'accès à la DB tout le temps</h2>
+      </header>
+      <p>dans <em>conftest.py</em></p>
+      <pre>
+        <code>def pytest_collection_modifyitems(items):</code>
+        <code>    for item in items:</code>
+        <code>        item.keywords['django_db'] = pytest.mark.django_db</code>
+      </pre>
+      <small class="byline">
+          Tant pis pour toi
+      </small>
+    </section>
+  </div></div>
+
+  <div id="why" class="slide shout"><div>
+    <section>
+      <header>
+      <h2>Pourquoi</h2>
+      </header>
+    </section>
+  </div></div>
+
+  <div id="pythonic" class="slide"><div>
+    <section>
+      <header>
+        <h2>py.test est pythonique</h2>
+      </header>
+      <p>Utilisation de simples <code>assert</code></p>
+      <p>Pas de camelCase comme <code>self.assertEqual</code></p>
+      <ul>
+        <li><code>assert 1 == 2</code> ou <code>self.assertEqual(1, 2)</code></li>
+        <li><code>assert True</code> ou <code>self.assertTrue(True)</code></li>
+        <li><code>assert not None</code> ou <code>self.assertIsNotNone(None)</code></li>
+      </ul>
+      <small class="byline">
+        <code>self.assertAbstractSingletonProxyFactoryBean</code>. Just joking. Or am I?
+      </small>
+    </section>
+  </div></div>
+
+  <div id="maintained" class="slide"><div>
+    <section>
+      <header>
+        <h2>py.test est activement maintenu</h2>
+      </header>
+      <ul>
+        <li><a href="http://pytest.org/latest/contributing.html">Contribuer</a></li>
+        <li><a href="http://pytest.org/latest/adopt.html">Adopt py.test month</a></li>
+        <li><a href="https://bitbucket.org/pytest-dev/pytest/">Code source</a></li>
+        <li><a
+            href="https://bitbucket.org/pytest-dev/pytest/issues?status=open">7
+            py.test open issues</a> versus <a href="https://github.com/nose-devs/nose/issues">310 nose open issues</a></li>
+      </ul>
+      <small class="byline">
+        Le nombre d'issues ouvertes datent du 2015-05-06
+      </small>
+    </section>
+  </div></div>
+
+  <div id="why-not" class="slide"><div>
+    <section>
+      <header>
+        <h2>Oui mais pourquoi changer&nbsp;?</h2>
+      </header>
+      <p>Pourquoi se passer de quelque chose de mieux maintenu et compatible avec les tests actuels&nbsp;?</p>
+      <p><img src="images/nose.png" alt="nose" style="vertical-align: middle" />
+        <em>versus</em>
+        <img src="images/py.jpg" alt="python" style="vertical-align: middle" />
+        <strong>+ test</strong></p>
+      <small class="byline">
+        Naming is hard.
+      </small>
+    </section>
+  </div></div>
+
+  <div id="why-not-change" class="slide"><div>
+    <section>
+      <header>
+        <h2>Pourquoi ne pas changer&nbsp;?</h2>
+      </header>
+      <p>Pas d'injection de dépendance (et donc pas non plus de paramètres),
+      bien qu'on puisse utiliser les fixtures
+      <a href="http://pytest.org/latest/fixture.html#autouse-fixtures-xunit-setup-on-steroids">autouse</a></p>
+      <p>Pas de fixture bundling, donc les tests sont plus lents, mais
+        <a href="https://docs.djangoproject.com/en/1.8/releases/1.8/#testcase-data-setup">Django 1.8 test case data setup</a>
+        et la possibilité de faire des builds en parallèle avec Travis</p>
+      <small class="byline">
+        Des broutilles je vous dis
+      </small>
+    </section>
+  </div></div>
+
+  <div id="how" class="slide shout"><div>
+    <section>
+      <header>
+      <h2>Comment</h2>
+      </header>
+    </section>
+  </div></div>
+
+  <div id="test-files" class="slide"><div>
+    <section>
+      <header>
+        <h2>Fichiers de tests</h2>
+      </header>
+      <p><code>find . -name test* | wc -l</code></p>
+      <strong>248</strong>
+      <small class="byline">
+        Ça va être long
+      </small>
+    </section>
+  </div></div>
+
+  <div id="test-cases" class="slide"><div>
+    <section>
+      <header>
+        <h2>TestCases</h2>
+      </header>
+      <p><code>ag "class Test" | wc -l</code></p>
+      <strong>472</strong>
+      <small class="byline">
+        Très long
+      </small>
+    </section>
+  </div></div>
+
+  <div id="test-functions" class="slide"><div>
+    <section>
+      <header>
+        <h2>Tests</h2>
+      </header>
+      <p><code>ag "def test_" | wc -l</code></p>
+      <strong>3626</strong>
+      <small class="byline">
+        Oups.
+      </small>
+    </section>
+  </div></div>
+
+  <div id="test-assertions" class="slide"><div>
+    <section>
+      <header>
+        <h2>Assertions</h2>
+      </header>
+      <p><code>ag "self.assert|ok_|eq_" | wc -l</code></p>
+      <strong>6210</strong>
+      <small class="byline">
+        Ok, on laisse tomber. The end. Des questions&nbsp;?
+      </small>
+    </section>
+  </div></div>
+
+  <div id="everything-is-fine" class="slide"><div>
+    <section>
+      <header>
+        <h2>LAULE</h2>
+      </header>
+      <p>Je l'ai déjà dis deux fois, <strong>py.test est compatible avec votre code actuel</strong>.</p>
+      <p><a href="https://github.com/mozilla/olympia/pull/369">la preuve</a>
+      <img src="images/not_much.png" /></p>
+      <p>Nan mais en vrai <img src="images/not_much_i_swear.png" /> pour
+        l'ajout d'un fichier de fixtures de données.</p>
+      <small class="byline">
+        Haha.
+      </small>
+    </section>
+  </div></div>
+
+  <div id="usage" class="slide"><div>
+    <section>
+      <header>
+        <h2>Utilisation</h2>
+      </header>
+      <p><code>py.test</code> versus<br/>
+        <code>REUSE_DB=1 python manage.py test --noinput --logging-clear-handlers --with-id</code></p>
+      <small class="byline">
+        Classe.
+      </small>
+    </section>
+  </div></div>
+
+  <div id="add-mark-django_db" class="slide"><div>
+    <section>
+      <header>
+        <h2>Autoriser la DB</h2>
+      </header>
+      <p>Rajout de <code>@pytest.mark.django_db</code> sur notre <em>TestCase</em>
+        de base</p>
+      <p>Rajouts de <code>pytestmark = pytest.mark.django_db</code> dans les 35
+      fichiers qui en ont besoin</p>
+      <pre>
+        <code>def pytest_collection_modifyitems(items):</code>
+        <code>    for item in items:</code>
+        <code>        item.keywords['django_db'] = pytest.mark.django_db</code>
+      </pre>
+      <small class="byline">
+        J'ai espoir de pouvoir utiliser cette feature
+      </small>
+    </section>
+  </div></div>
+
+  <div id="cleanup" class="slide"><div>
+    <section>
+      <header>
+        <h2>Nettoyage</h2>
+      </header>
+      <p>Il manquait des appels à <code>super()</code> dans les
+        <code>(setUp|tearDown)(class)</code>,
+        magouille sur le <code>PYTHONPATH</code> dans <em>manage.py</em>&nbsp;:</p>
+      <pre class="longlist">
+        <code>import manage.py</code>
+        <code> </code>
+        <code>@pytest.fixture(autouse=True, scope='session')</code>
+        <code>def _load_testapp():</code>
+        <code>    installed_apps = getattr(settings, 'INSTALLED_APPS')</code>
+        <code>    setattr(settings, 'INSTALLED_APPS', installed_apps + extra_apps)</code>
+        <code>    django.db.models.loading.cache.loaded = False</code>
+      </pre>
+      <small class="byline">
+        J'ai vomi dans ma bouche
+      </small>
+    </section>
+  </div></div>
+
+  <div id="random-hashseed" class="slide"><div>
+    <section>
+      <header>
+        <h2>HASHSEED</h2>
+      </header>
+      <p><a href="https://testrun.org/tox/latest/example/basic.html#special-handling-of-pythonhashseed">tox</a>
+        permet d'avoir un <code>PYTHONHASHSEED</code> différent à chaque run.
+        Mais du coup, il faut faire attention aux tests sur les dictionnaires
+        (non ordonnés&nbsp;!)</p>
+      <ul>
+        <li>dictionnaires eux-mêmes</li>
+        <li>urls avec paramètres (construits à partir de dicts)</li>
+        <li>Dump ou load de <em>json</em></li>
+        <li>Elasticsearch et ses queries</li>
+        <li>csv.DictReader</li>
+      </ul>
+      <small class="byline">
+        Propre.
+      </small>
+    </section>
+  </div></div>
+
+  <div id="bonus" class="slide"><div>
+    <section>
+      <header>
+          <h2>Bonus</h2>
+      </header>
+      <p>Pas de recompilation et récupération des statics pour les tests&nbsp;:</p>
+      <pre>
+        <code>@pytest.fixture(autouse=True)</code>
+        <code>def mock_inline_css(monkeypatch):</code>
+        <code>    import amo.helpers</code>
+        <code>    monkeypatch.setattr(amo.helpers, 'is_external',</code>
+        <code>                        lambda css: True)</code>
+      </pre>
+      <small class="byline">
+          de toute façon je fais que du back-end
+      </small>
+    </section>
+  </div></div>
+
+  <div id="split-builds" class="slide"><div>
+    <section>
+      <header>
+          <h2>Bonus&nbsp;: builds parallèles</h2>
+      </header>
+      <p>Avec py.test, tox et travis, c'est un
+        <a href="https://github.com/mozilla/olympia/pull/369/files#diff-b91f3d5bd63fcd17221b267e851608e8">jeu d'enfant</a></p>
+      <p><img src="images/split_builds.png" alt="split builds" style="width:
+      100%"/></p>
+      <p>De plus de 50 minutes à moins de 20</p>
+      <small class="byline">
+        Je sais que c'est lent. Mais c'est BEAUCOUP MOINS lent.
+      </small>
+    </section>
+  </div></div>
+
+  <div id="conclusion" class="slide"><div>
+    <section>
+      <header>
+          <h2>Conclusion</h2>
+      </header>
+      <p><code>pip install pytest &amp;&amp; py.test</code></p>
+      <p>formation à py.test&nbsp;: <a href="http://www.merlinux.eu/~hpk/testing.pdf">http://www.merlinux.eu/~hpk/testing.pdf</a></p>
+      <p>ces slides&nbsp;: <a href="http://mathieu.agopian.info/presentations/2015_05_djangocong/">http://mathieu.agopian.info/presentations/2015_05_djangocong/</a></p>
+      <small class="byline">
+        plus d'excuses
+      </small>
+    </section>
+  </div></div>
+
+  <div id="questions" class="slide shout"><div>
+    <section>
+      <header>
+      <h2>Questions&nbsp;!?</h2>
+      </header>
+      <small class="byline">
+          qu'il parle maintenant ou se taise à jamais... ou me demande après ;)
+      </small>
+    </section>
+  </div></div>
+
+  <div class="progress"><div></div></div>
+  <script src="shower/scripts/script.js"></script>
+</body>
+</html>

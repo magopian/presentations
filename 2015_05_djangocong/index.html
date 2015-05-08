@@ -124,10 +124,11 @@
           <li><a href="https://pytest.org/latest/mark.html">Marquer</a> certains tests&nbsp;:
             <code>@pytest.mark.functional</code></li>
           <li>Lancer seulement <a href="https://pytest.org/latest/usage.html">certains tests</a><br/>
-            par nom&nbsp;: <code>-k test_foo</code></br>
-            par chemin&nbsp;: <code>tests/bar/</code></br>
-            par module&nbsp;: <code>test_baz.py</code></br>
-            par « mark »&nbsp;: <code>-m functional</code> ou <code>-m "not functional"</code></li>
+            par nom&nbsp;: <code>py.test -k test_foo</code></br>
+            par chemin&nbsp;: <code>py.test tests/bar/</code></br>
+            par module&nbsp;: <code>py.test test_baz.py</code></br>
+            par « mark »&nbsp;: <code>py.test -m functional</code> ou
+            <code>py.test -m "not functional"</code></li>
       </ul>
       <small class="byline">
           C'est bientôt fini. Peut-être.
@@ -165,25 +166,6 @@
       </header>
       <p>Fixtures par <a href="https://pytest.org/latest/fixture.html">injection de dépendance</a>,
         peuvent être utilisées à la place de <code>(setUp|tearDown)(function|class|module|package)</code></p>
-      <pre>
-        <code>def test_view(rf, settings):</code>
-        <code>    settings.LANGUAGE_CODE = 'fr'</code>
-        <code>    request = rf.get('/')</code>
-        <code>    response = home_view(request)</code>
-        <code>    assert response.status_code == 302</code>
-      </pre>
-      <small class="byline">
-          abracadabra
-      </small>
-    </section>
-  </div></div>
-
-  <div id="pytest-fixtures-2" class="slide"><div>
-    <section>
-      <header>
-        <h2>Remplace avantageusement celles de unittest</h2>
-      </header>
-      <p>Fixtures par <a href="https://pytest.org/latest/fixture.html">injection de dépendance</a>&nbsp;:
       <pre>
         <code>def test_view(rf, settings):</code>
         <code>    settings.LANGUAGE_CODE = 'fr'</code>

@@ -1,0 +1,123 @@
+Passer de nose à py.test sur un gros projet chez Mozilla
+########################################################
+
+Qu'est-ce que py.test
+=====================
+
+Qu'est-ce ?
+-----------
+
+- Un outil de test pour Python mature et plein de fonctionalités
+- permet d'écrire des tests sans boilerplate
+- utilisable sur des projets petits ou grands
+- s'intègre avec les outils de test comme nose, unittest et doctest
+- système de plugin et de personalisation avancé
+- pip install pytest
+
+Fonctionalités
+--------------
+
+- le collecteur de tests
+    - 10 tests les plus lents
+    - s'arrêter après le premier échec
+    - direct dans pdb
+    - direct sur pastebin
+    - modification des tracebacks
+    - lancer seulement certains tests
+    - mark des tests
+- les assertions et l'introspection
+- les fixtures (injection de dépendance)
+- la paramétrisation
+- configuration et personalisation
+- les plugins (pytest-django, pytest-cov, pytest-cache, pytest-xdist...)
+- pytest-django
+    - réutiliser la bdd
+    - autoriser l'accès à la BDD
+
+Pourquoi pytest au lieu de unittest/nose
+========================================
+
+- pythonique
+    - camelcase
+    - self.xxxxxxx
+- existe depuis plus longtemps
+- très activement maintenu/développé
+- toutes les fonctionalités vues plus haut
+- pytest peut faire tourner tous les tests existants
+- API très bien pensée
+- TROLL: nose (nez) vs pytest (python + tests)
+
+Bad news
+--------
+
+- mais pas de fixture bundling (donc plus lent... django1.8 ?), mais
+    https://docs.djangoproject.com/en/1.8/releases/1.8/#testcase-data-setup
+    utilisation avec tox/travis : builds parallèles (slide bonus)
+- on peut pas utiliser
+    - les fixtures (dependency injection) avec unittest
+    - la parametrization
+
+
+Comment passer à pytest
+=======================
+
+What do we need to change
+-------------------------
+
+find . -name test* | wc -l
+     248
+
+ag "class Test" | wc -l
+     472
+
+ag "def test_" | wc -l
+    3626
+
+ag "self.assert|ok_|eq_" | wc -l
+    6210
+
+Good news, pytest can run those tests
+-------------------------------------
+
+https://github.com/mozilla/olympia/pull/369
+
+Most changes because we also started to use tox:
+    - split builds (faster test runs)
+    - random HASHSEED
+    - use a json fixture for ES tests instead of live generated (+900 lines)
+    - didn't want to mark all the tests as mark_db
+
+- running tests:
+    py.test instead of REUSE_DB=1 python manage.py test --noinput --logging-clear-handlers --with-id
+- mark django_db: pytestmark = pytest.mark.django_db
+    or
+        def pytest_collection_modifyitems(items):
+            for item in items:
+                item.keywords['django_db'] = pytest.mark.django_db
+- make sure each setUp(Class) and tearDown(Class) have their call to super()
+- hackery done in manage.py: in conftest.py
+    import manage.py
+
+    @pytest.fixture(autouse=True, scope='session')
+    def _load_testapp():
+        installed_apps = getattr(settings, 'INSTALLED_APPS')
+        setattr(settings, 'INSTALLED_APPS', installed_apps + extra_apps)
+        django.db.models.loading.cache.loaded = False
+
+    @pytest.fixture(autouse=True)
+    def mock_inline_css(monkeypatch):
+        import amo.helpers
+        monkeypatch.setattr(amo.helpers, 'is_external', lambda css: True)
+
+
+Bonus
+=====
+
+- pas de test css (voir ci-dessus)
+- nice to have: pytest-cache pytest-cov pytest-django (pytest-xdist)
+- split build
+    py.test -m es_tests
+    py.test -m 'not es_tests' -v apps/addons/ apps/devhub/ apps/editors/
+    py.test -m 'not es_tests' -v --ignore apps/addons/ --ignore apps/devhub/ --ignore apps/editors/
+    => from 50 minutes (or more?) down to 15/20 minutes
+- pour fonctionner avec ipdb, rajouter "-s" (no capture)
